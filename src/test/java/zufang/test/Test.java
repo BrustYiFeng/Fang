@@ -1,7 +1,7 @@
 package zufang.test;
 
 public class Test {
-	public void test() {
+	public void testq() {
 		
 	}
 }
