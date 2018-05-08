@@ -10,7 +10,7 @@
 		#allmap{width:100%;height:500px;}
 		p{margin-left:5px; font-size:14px;}
 	</style>
-	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4IU3oIAMpZhfWZsMu7xzqBBAf6vMHcoa"></script>
 	<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
 	<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
 	<title>点聚合</title>
@@ -20,23 +20,34 @@
 	<p>缩放地图，查看点聚合效果</p>
 </body>
 </html>
+<script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
 	// 百度地图API功能
 	var map = new BMap.Map("allmap");
-	map.centerAndZoom(new BMap.Point(116.404, 39.915), 5);
+	map.centerAndZoom(new BMap.Point(116.423607, 23.249798), 12);
 	map.enableScrollWheelZoom();
 
 
+/*
 	var MAX = 10;
 	var markers = [];
 	var pt = null;
 	var i = 0;
 	for (; i < MAX; i++) {
 	   pt = new BMap.Point(Math.random() * 40 + 85, Math.random() * 30 + 21);
-      console.info(pt)
 	   markers.push(new BMap.Marker(pt));
-	}
-  console.info(markers)
-	//最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
-	var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
+	   var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
+	}*/
+	$.get("/shenzhen/440514",function(data){
+		var markers = [];
+		var pt = null;
+		for(var j = 0;j<data.length;j++){
+			pt = new BMap.Point( data[j].lng, data[j].lat);
+	   		markers.push(new BMap.Marker(pt));
+		}
+		//最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
+		var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
+	})
+	
+ 
 </script>
