@@ -10,4 +10,8 @@ public class Settings {
 	public String index() {
 		return "index";
 	}
+	@GetMapping("map")
+	public String map() {
+		return "map";
+	}
 }
