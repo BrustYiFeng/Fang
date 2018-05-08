@@ -2,6 +2,6 @@ package zufang.test;
 
 public class Test {
 	public void test() {
-		System.out.println(11);
+		System.out.println("123123");
 	}
 }
