@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+    <context:component-scan
+            base-package="cn.brust.zufang"></context:component-scan>
+    <bean
+            class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+<bean id="jdbcTemplate"  
+    class="org.springframework.jdbc.core.JdbcTemplate">  
+    <property name="dataSource" ref="dataSource"></property>  
+</bean>  
+
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+
+
+    <context:property-placeholder location="classpath:db.properties"/>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="url" value="${jdbc.jdbcUrl}"/>
+        <!-- <property name="driver" value="${jdbc.driverClass}" /> -->
+    </bean>
+
+    <!-- 	配置mybatis的sqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configuration">
+            <bean class="org.apache.ibatis.session.Configuration">
+                <property name="mapUnderscoreToCamelCase" value="true"/>
+            </bean>
+        </property>
+        <property name="typeAliasesPackage" value="cn.brust.zufang.entities"></property>
+
+    </bean>
+    <!-- 	配置事务管理 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 配置Mapper所在的package -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="cn.brust.zufang.mapper"></property>
+    </bean>
+
+<!--     <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/menu/topic"/>
+            <mvc:mapping path="/menu/topic/*"/>
+            <mvc:mapping path="/brustcms/new"/>
+            <mvc:mapping path="/brustcms/new/*"/>
+            <mvc:mapping path="/brustcms/login"/>
+
+            <bean class="cn.brust.zufang.interceptor.LogInterceptors"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/brustcms/**"/>
+            <mvc:mapping path="/index.do"/>
+            <mvc:exclude-mapping path="/menu/**"/>
+            <mvc:exclude-mapping path="/brustcms/login"/>
+            <mvc:exclude-mapping path="/brustcms/content/list"/>
+            <bean class="cn.brust.zufang.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors> -->
+</beans>
