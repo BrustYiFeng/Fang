@@ -87,7 +87,7 @@
 		   	//	markers.push(new BMap.Marker(pt));
 		   	//	if(count%10==0)
 		   	//		var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
-		   			var marker = new ComplexCustomOverlay(new BMap.Point( data[j].lng, data[j].lat),data[j].areaname,data[j].areaname+"发你");
+		   			var marker = new ComplexCustomOverlay(new BMap.Point( data[j].lng, data[j].lat),data[j].areaname,data[j].areaname+"共有45套");
 		   			map.addOverlay(marker);  
 	   			
 			}
